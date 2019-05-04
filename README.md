@@ -1,2 +1,2 @@
-# quoraUpgrad
+# quora
 PGSD group project
