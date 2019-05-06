@@ -14,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -22,6 +24,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "user_auth", schema = "quora")
+@NamedQueries(
+        {
+            @NamedQuery(name = "userAuthByToken", query = "select u from UserAuthEntity u where u.access_token=:token")
+        }
+)
+
 public class UserAuthEntity implements Serializable {
 
     @Id

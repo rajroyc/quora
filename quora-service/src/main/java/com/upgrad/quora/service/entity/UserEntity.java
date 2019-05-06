@@ -14,15 +14,20 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/**
- *
- * @author nmu
- */
 @Entity
 @Table(name = "users", schema = "quora")
+@NamedQueries(
+        {
+            @NamedQuery(name = "userByUsername", query = "select u from UserEntity u where u.username=:username")
+            ,
+            @NamedQuery(name = "userByEmailId", query = "select u from UserEntity u where u.email=:email")
+        }
+)
 public class UserEntity implements Serializable {
 
     @Id

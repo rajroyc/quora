@@ -9,7 +9,6 @@ import java.util.Random;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-
 import org.springframework.stereotype.Component;
 
 
@@ -41,7 +40,7 @@ public class PasswordCryptographyProvider {
      * @param salt     byte array.
      * @return byte array of hashed password.
      */
-    public static String encrypt(final String password, String salt) {
+    public String encrypt(final String password, String salt) {
         return bytesToHex(hashPassword(password.toCharArray(), getBase64DecodedStringAsBytes(salt)));
     }
 
