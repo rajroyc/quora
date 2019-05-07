@@ -14,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -23,6 +25,11 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "answer", schema = "quora")
+@NamedQueries(
+        {
+            @NamedQuery(name = "getAnswerByUuid", query = "select u from AnswerEntity u where u.uuid=:uuid")
+        }
+)
 public class AnswerEntity implements Serializable {
 
     @Id
@@ -43,7 +50,7 @@ public class AnswerEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity userId;
+    private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "question_id")
@@ -65,8 +72,8 @@ public class AnswerEntity implements Serializable {
         return date;
     }
 
-    public UserEntity getUserId() {
-        return userId;
+    public UserEntity getUser() {
+        return user;
     }
 
     public QuestionEntity getQuestion() {
@@ -89,8 +96,8 @@ public class AnswerEntity implements Serializable {
         this.date = date;
     }
 
-    public void setUserId(UserEntity userId) {
-        this.userId = userId;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     public void setQuestion(QuestionEntity question) {

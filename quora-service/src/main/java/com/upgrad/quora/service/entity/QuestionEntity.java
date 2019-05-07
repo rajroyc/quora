@@ -17,6 +17,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -27,6 +29,15 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "question", schema = "quora")
+
+@NamedQueries(
+        {
+            @NamedQuery(name = "getAllQuestions", query = "select u from QuestionEntity u")
+            ,
+            @NamedQuery(name = "getQuestByUuid", query = "select u from QuestionEntity u where u.uuid=:uuid")
+        }
+)
+
 public class QuestionEntity implements Serializable {
 
     @Id
