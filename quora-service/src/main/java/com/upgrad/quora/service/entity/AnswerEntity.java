@@ -6,7 +6,7 @@
 package com.upgrad.quora.service.entity;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -27,16 +28,18 @@ public class AnswerEntity implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Integer id;
 
     @Column(name = "uuid")
+    @Size(max = 200)
     private String uuid;
 
     @Column(name = "ans")
+    @Size(max = 255)
     private String answer;
 
     @Column(name = "date")
-    private ZonedDateTime date;
+    private LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -46,7 +49,7 @@ public class AnswerEntity implements Serializable {
     @JoinColumn(name = "question_id")
     private QuestionEntity question;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -58,7 +61,7 @@ public class AnswerEntity implements Serializable {
         return answer;
     }
 
-    public ZonedDateTime getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
@@ -70,7 +73,7 @@ public class AnswerEntity implements Serializable {
         return question;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -82,7 +85,7 @@ public class AnswerEntity implements Serializable {
         this.answer = answer;
     }
 
-    public void setDate(ZonedDateTime date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

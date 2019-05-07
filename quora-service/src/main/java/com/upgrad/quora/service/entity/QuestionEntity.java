@@ -6,7 +6,7 @@
 package com.upgrad.quora.service.entity;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -31,16 +32,18 @@ public class QuestionEntity implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Integer id;
 
     @Column(name = "uuid")
+    @Size(max = 200)
     private String uuid;
 
     @Column(name = "content")
+    @Size(max = 500)
     private String content;
 
     @Column(name = "date")
-    private ZonedDateTime date;
+    private LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -49,7 +52,7 @@ public class QuestionEntity implements Serializable {
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ArrayList<AnswerEntity> answerList = new ArrayList();
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -61,7 +64,7 @@ public class QuestionEntity implements Serializable {
         return content;
     }
 
-    public ZonedDateTime getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
@@ -73,7 +76,7 @@ public class QuestionEntity implements Serializable {
         return answerList;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -85,7 +88,7 @@ public class QuestionEntity implements Serializable {
         this.content = content;
     }
 
-    public void setDate(ZonedDateTime date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

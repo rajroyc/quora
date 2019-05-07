@@ -6,7 +6,7 @@
 package com.upgrad.quora.service.entity;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -27,6 +28,8 @@ import javax.persistence.Table;
 @NamedQueries(
         {
             @NamedQuery(name = "userAuthByToken", query = "select u from UserAuthEntity u where u.access_token=:token")
+            ,
+            @NamedQuery(name = "userAuthByUserId", query = "select u from UserAuthEntity u where u.user_id=:user_id")
         }
 )
 
@@ -35,9 +38,10 @@ public class UserAuthEntity implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Integer id;
 
     @Column(name = "uuid")
+    @Size(max = 200)
     private String uuid;
 
     @ManyToOne
@@ -45,18 +49,19 @@ public class UserAuthEntity implements Serializable {
     private UserEntity user;
 
     @Column(name = "access_token")
+    @Size(max = 500)
     private String accessToken;
 
     @Column(name = "expires_at")
-    private ZonedDateTime expiresAt;
+    private LocalDateTime expiresAt;
 
     @Column(name = "login_at")
-    private ZonedDateTime loginAt;
+    private LocalDateTime loginAt;
 
     @Column(name = "logout_at")
-    private ZonedDateTime logoutAt;
+    private LocalDateTime logoutAt;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -72,19 +77,19 @@ public class UserAuthEntity implements Serializable {
         return accessToken;
     }
 
-    public ZonedDateTime getExpiresAt() {
+    public LocalDateTime getExpiresAt() {
         return expiresAt;
     }
 
-    public ZonedDateTime getLoginAt() {
+    public LocalDateTime getLoginAt() {
         return loginAt;
     }
 
-    public ZonedDateTime getLogoutAt() {
+    public LocalDateTime getLogoutAt() {
         return logoutAt;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -100,15 +105,15 @@ public class UserAuthEntity implements Serializable {
         this.accessToken = accessToken;
     }
 
-    public void setExpiresAt(ZonedDateTime expiresAt) {
+    public void setExpiresAt(LocalDateTime expiresAt) {
         this.expiresAt = expiresAt;
     }
 
-    public void setLoginAt(ZonedDateTime loginAt) {
+    public void setLoginAt(LocalDateTime loginAt) {
         this.loginAt = loginAt;
     }
 
-    public void setLogoutAt(ZonedDateTime logoutAt) {
+    public void setLogoutAt(LocalDateTime logoutAt) {
         this.logoutAt = logoutAt;
     }
 

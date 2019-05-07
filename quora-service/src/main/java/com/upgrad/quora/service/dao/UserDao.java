@@ -33,6 +33,15 @@ public class UserDao {
         }
     }
 
+    public UserEntity getUserByUuid(String uuid) {
+
+        try {
+            return entityManager.createNamedQuery("userByUuid", UserEntity.class).setParameter("uuid", uuid).getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+
     public UserEntity getUserByEmail(String email) {
 
         try {
@@ -61,6 +70,23 @@ public class UserDao {
         } catch (NoResultException ex) {
             return null;
         }
+    }
+
+    public UserAuthEntity getUserAuthByUserId(Integer userId) {
+
+        try {
+            return entityManager.createNamedQuery("userAuthByUserId", UserAuthEntity.class).setParameter("user_id", userId).getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+
+    public UserEntity deleteUser(UserEntity userEntity) {
+
+        UserAuthEntity userAuthEntity = getUserAuthByUserId(userEntity.getId());
+        entityManager.remove(userEntity);
+        entityManager.remove(userAuthEntity);
+        return userEntity;
     }
 
 }
