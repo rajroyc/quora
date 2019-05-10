@@ -14,6 +14,7 @@ import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.exception.AnswerNotFoundException;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,14 +50,15 @@ public class AnswerService {
             throw new InvalidQuestionException("QUES-001", "The question entered is invalid");
         }
 
-        answerDao.createAnswerForQuestion(answerEntity);
-        return answerEntity;
-
+        answerEntity.setDate(LocalDateTime.now());
+        answerEntity.setQuestion(questionEntity);
+        answerEntity.setUser(userAuth.getUser());
+        return answerDao.createAnswerForQuestion(answerEntity);
     }
 
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public AnswerEntity editAnswer(String answerUuid, String token) throws AuthorizationFailedException, AnswerNotFoundException {
+    public AnswerEntity editAnswer(String answerUuid, String content, String token) throws AuthorizationFailedException, AnswerNotFoundException {
 
         UserAuthEntity userAuth = userDao.getUserAuthByToken(token);
         if (userAuth == null) {
@@ -76,6 +78,8 @@ public class AnswerService {
         if (!answerEntity.getUser().getUuid().equals(userAuth.getUser().getUuid())) {
             throw new AuthorizationFailedException("ATHR-003", "Only the answer owner can edit the answer");
         }
+        answerEntity.setAnswer(content);
+        answerEntity.setDate(LocalDateTime.now());
         return answerDao.editAnswer(answerEntity);
 
     }

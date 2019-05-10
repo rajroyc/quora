@@ -133,4 +133,10 @@ public class QuestionService {
         return userEntity.getQuestionList();
 
     }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public QuestionEntity getQuestionByUuid(String uuid) {
+        return questionDao.getQuestionByUuid(uuid);
+    }
+
 }
