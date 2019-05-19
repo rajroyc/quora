@@ -75,7 +75,7 @@ public class UserService {
             throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
         }
 
-        UserEntity userEntity = userDao.getUserByUuid(token);
+        UserEntity userEntity = userDao.getUserByUuid(targetUuid);
         if (userEntity == null) {
             throw new UserNotFoundException("USR-001", "User with entered uuid does not exist");
         }
