@@ -27,7 +27,7 @@ import javax.validation.constraints.Size;
  * @author nmu
  */
 @Entity
-@Table(name = "question", schema = "quora")
+@Table(name = "question")
 
 @NamedQueries(
         {

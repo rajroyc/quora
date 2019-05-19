@@ -22,7 +22,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "users", schema = "quora")
+@Table(name = "users")
 @NamedQueries(
         {
             @NamedQuery(name = "userByUsername", query = "select u from UserEntity u where u.username=:username")

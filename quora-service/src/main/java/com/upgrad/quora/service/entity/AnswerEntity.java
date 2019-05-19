@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
  * @author nmu
  */
 @Entity
-@Table(name = "answer", schema = "quora")
+@Table(name = "answer")
 @NamedQueries(
         {
             @NamedQuery(name = "getAnswerByUuid", query = "select u from AnswerEntity u where u.uuid=:uuid")

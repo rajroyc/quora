@@ -25,7 +25,7 @@ import javax.validation.constraints.Size;
  * @author nmu
  */
 @Entity
-@Table(name = "user_auth", schema = "quora")
+@Table(name = "user_auth")
 @NamedQueries(
         {
             @NamedQuery(name = "userAuthByToken", query = "select ua from UserAuthEntity ua where ua.accessToken =:token")
