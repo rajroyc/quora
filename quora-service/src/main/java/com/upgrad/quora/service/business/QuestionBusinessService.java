@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class QuestionService {
+public class QuestionBusinessService {
 
     @Autowired
     QuestionDao questionDao;

@@ -7,7 +7,7 @@ import com.upgrad.quora.api.model.QuestionEditRequest;
 import com.upgrad.quora.api.model.QuestionEditResponse;
 import com.upgrad.quora.api.model.QuestionRequest;
 import com.upgrad.quora.api.model.QuestionResponse;
-import com.upgrad.quora.service.business.QuestionService;
+import com.upgrad.quora.service.business.QuestionBusinessService;
 import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
@@ -30,7 +30,7 @@ public class QuestionController {
 
 
     @Autowired
-    private QuestionService questionBusinessService;
+    private QuestionBusinessService questionBusinessService;
 
 
 
