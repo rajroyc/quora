@@ -22,7 +22,7 @@ import java.util.UUID;
 public class QuestionController {
 
     @Autowired
-    QuestionService questionService;
+    private QuestionService questionService;
 
     @RequestMapping(path = "/question/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
    public ResponseEntity<QuestionResponse> createQuestion(@RequestHeader("authorization") final String token, final QuestionRequest questionRequest) throws AuthorizationFailedException {
@@ -89,7 +89,7 @@ public class QuestionController {
         }
 
         return new ResponseEntity<>(questionDetailsResponses, HttpStatus.OK);
-        
+
     }
 
 
