@@ -11,7 +11,7 @@ import com.upgrad.quora.api.model.AnswerEditResponse;
 import com.upgrad.quora.api.model.AnswerRequest;
 import com.upgrad.quora.api.model.AnswerResponse;
 import com.upgrad.quora.service.business.AnswerBusinessService;
-import com.upgrad.quora.service.business.QuestionBusinessService;
+import com.upgrad.quora.service.business.QuestionService;
 import com.upgrad.quora.service.entity.AnswerEntity;
 import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.exception.AnswerNotFoundException;
@@ -36,7 +36,7 @@ public class AnswerController {
     AnswerBusinessService ansService;
 
     @Autowired
-    QuestionBusinessService questionService;
+    QuestionService questionService;
 
     @RequestMapping(path = "/question/{questionId}/answer/create", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AnswerResponse> createAnswer(@RequestHeader("authorization") final String authorization, @PathVariable("questionId") final String quesUuid, final AnswerRequest answerRequest) throws AuthorizationFailedException, InvalidQuestionException {
