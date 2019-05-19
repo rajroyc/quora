@@ -13,11 +13,12 @@ import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
 import com.upgrad.quora.service.exception.UserNotFoundException;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class QuestionService {
@@ -65,7 +66,7 @@ public class QuestionService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public QuestionEntity editQuestion(String questUuid, String token) throws AuthorizationFailedException, InvalidQuestionException {
+    public QuestionEntity editQuestion(String questUuid, String token, QuestionEntity questionEntity) throws AuthorizationFailedException, InvalidQuestionException {
 
         UserAuthEntity userAuth = userDao.getUserAuthByToken(token);
         if (userAuth == null) {
@@ -76,16 +77,18 @@ public class QuestionService {
             throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to edit the question");
         }
 
-        QuestionEntity questionEntity = questionDao.getQuestionByUuid(questUuid);
+        QuestionEntity existingQuestion = questionDao.getQuestionByUuid(questUuid);
 
-        if (questionEntity == null) {
+        if (existingQuestion == null) {
             throw new InvalidQuestionException("QUES-001", "Entered question uuid does not exist");
         }
 
-        if (!questionEntity.getUser().getUuid().equals(userAuth.getUser().getUuid())) {
+        if (!existingQuestion.getUser().getUuid().equals(userAuth.getUser().getUuid())) {
             throw new AuthorizationFailedException("ATHR-003", "Only the question owner can edit the question");
         }
-        return questionDao.editQuestion(questionEntity);
+
+        existingQuestion.setContent(questionEntity.getContent());
+        return questionDao.editQuestion(existingQuestion);
 
     }
 

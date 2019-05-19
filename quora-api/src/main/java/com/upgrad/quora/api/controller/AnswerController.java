@@ -5,12 +5,7 @@
  */
 package com.upgrad.quora.api.controller;
 
-import com.upgrad.quora.api.model.AnswerDeleteResponse;
-import com.upgrad.quora.api.model.AnswerDetailsResponse;
-import com.upgrad.quora.api.model.AnswerEditRequest;
-import com.upgrad.quora.api.model.AnswerEditResponse;
-import com.upgrad.quora.api.model.AnswerRequest;
-import com.upgrad.quora.api.model.AnswerResponse;
+import com.upgrad.quora.api.model.*;
 import com.upgrad.quora.service.business.AnswerService;
 import com.upgrad.quora.service.business.QuestionService;
 import com.upgrad.quora.service.entity.AnswerEntity;
@@ -18,8 +13,6 @@ import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.exception.AnswerNotFoundException;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
-import java.util.List;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +21,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
+import java.util.UUID;
 
 @RequestMapping(path = "/")
 public class AnswerController {
@@ -85,7 +81,7 @@ public class AnswerController {
         }
 
         AnswerDetailsResponse answerRsp = new AnswerDetailsResponse().id(quesUuid).questionContent(quesEntity.getContent()).answerContent(answerStr);
-        return new ResponseEntity<AnswerDetailsResponse>(answerRsp, HttpStatus.OK);
+        return new ResponseEntity<>(answerRsp, HttpStatus.OK);
 
     }
 
