@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -24,12 +25,12 @@ import javax.validation.constraints.Size;
  * @author nmu
  */
 @Entity
-@Table(name = "user_auth", schema = "quora")
+@Table(name = "user_auth")
 @NamedQueries(
         {
-            @NamedQuery(name = "userAuthByToken", query = "select u from UserAuthEntity u where u.access_token=:token")
+            @NamedQuery(name = "userAuthByToken", query = "select ua from UserAuthEntity ua where ua.accessToken =:token")
             ,
-            @NamedQuery(name = "userAuthByUserId", query = "select u from UserAuthEntity u where u.user_id=:user_id")
+            @NamedQuery(name = "userAuthByUserId", query = "select ua from UserAuthEntity ua where ua.user =:user_id")
         }
 )
 
@@ -49,6 +50,7 @@ public class UserAuthEntity implements Serializable {
     private UserEntity user;
 
     @Column(name = "access_token")
+    @NotNull
     @Size(max = 500)
     private String accessToken;
 

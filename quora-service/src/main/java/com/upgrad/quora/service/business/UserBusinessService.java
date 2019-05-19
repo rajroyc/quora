@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserService {
+public class UserBusinessService {
 
     @Autowired
     UserDao userDao;
@@ -48,7 +48,7 @@ public class UserService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public UserEntity signOut(String uuid, String token) throws SignOutRestrictedException {
+    public UserEntity signOut(String token) throws SignOutRestrictedException {
 
         UserAuthEntity userAuth = userDao.getUserAuthByToken(token);
         if (userAuth == null) {
@@ -56,10 +56,10 @@ public class UserService {
         }
 
         UserEntity userEntity = userAuth.getUser();
-        if (userEntity.getUuid().equals(uuid)) {
-            userAuth.setLogoutAt(LocalDateTime.now());
-            userDao.updateAuthToken(userAuth);
-        }
+
+        userAuth.setLogoutAt(LocalDateTime.now());
+        userDao.updateAuthToken(userAuth);
+
         return userEntity;
     }
 
@@ -75,7 +75,7 @@ public class UserService {
             throw new AuthorizationFailedException("ATHR-002", "User is signed out.Sign in first to get user details");
         }
 
-        UserEntity userEntity = userDao.getUserByUuid(token);
+        UserEntity userEntity = userDao.getUserByUuid(targetUuid);
         if (userEntity == null) {
             throw new UserNotFoundException("USR-001", "User with entered uuid does not exist");
         }

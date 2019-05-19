@@ -10,23 +10,19 @@ import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.entity.UserEntity;
 import com.upgrad.quora.service.exception.AuthenticationFailedException;
 import java.time.ZonedDateTime;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class AuthenticationService {
+public class AuthenticationBusinessService {
 
     @Autowired
     UserDao userDao;
 
     @Autowired
     PasswordCryptographyProvider passwdCrypProvider;
-
-    @Autowired
-    JwtTokenProvider jwtTokenProvider;
 
     @Transactional(propagation = Propagation.REQUIRED)
     public UserAuthEntity authenticate(String username, String password) throws AuthenticationFailedException {
@@ -36,16 +32,17 @@ public class AuthenticationService {
             throw new AuthenticationFailedException("ATH-001", "This username does not exist");
         }
         String encryptPass = passwdCrypProvider.encrypt(password, userEntity.getSalt());
-        if (encryptPass.equals(password)) {
+        if (encryptPass.equals(userEntity.getPassword())) {
             final ZonedDateTime now = ZonedDateTime.now();
             final ZonedDateTime expiresAt = now.plusHours(8);
+            JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(encryptPass);
             String jwtToken = jwtTokenProvider.generateToken(userEntity.getUuid(), now, expiresAt);
             UserAuthEntity userAuth = new UserAuthEntity();
             userAuth.setAccessToken(jwtToken);
             userAuth.setLoginAt(now.toLocalDateTime());
             userAuth.setExpiresAt(expiresAt.toLocalDateTime());
             userAuth.setUser(userEntity);
-            userAuth.setUuid(UUID.randomUUID().toString());
+            userAuth.setUuid(userEntity.getUuid());
             return userDao.createAuthToken(userAuth);
 
         } else {

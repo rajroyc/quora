@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class QuestionService {
+public class QuestionBusinessService {
 
     @Autowired
     QuestionDao questionDao;

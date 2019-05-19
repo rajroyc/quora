@@ -7,7 +7,6 @@ package com.upgrad.quora.service.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -28,7 +27,7 @@ import javax.validation.constraints.Size;
  * @author nmu
  */
 @Entity
-@Table(name = "question", schema = "quora")
+@Table(name = "question")
 
 @NamedQueries(
         {
@@ -60,8 +59,8 @@ public class QuestionEntity implements Serializable {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private ArrayList<AnswerEntity> answerList = new ArrayList();
+    @OneToOne(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private AnswerEntity answerList;
 
     public Integer getId() {
         return id;
@@ -83,7 +82,7 @@ public class QuestionEntity implements Serializable {
         return user;
     }
 
-    public ArrayList<AnswerEntity> getAnswerList() {
+    public AnswerEntity getAnswerList() {
         return answerList;
     }
 
@@ -107,7 +106,7 @@ public class QuestionEntity implements Serializable {
         this.user = user;
     }
 
-    public void setAnswerList(ArrayList<AnswerEntity> answerList) {
+    public void setAnswerList(AnswerEntity answerList) {
         this.answerList = answerList;
     }
 

@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserAdminService {
+public class UserAdminBusinessService {
 
     @Autowired
     UserDao userDao;
