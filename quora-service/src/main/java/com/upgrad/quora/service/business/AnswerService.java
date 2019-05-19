@@ -15,7 +15,6 @@ import com.upgrad.quora.service.exception.AnswerNotFoundException;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
 import java.time.LocalDateTime;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -110,7 +109,7 @@ public class AnswerService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<AnswerEntity> getAllAnswerForQuestion(String questionUuid, String token) throws AuthorizationFailedException, InvalidQuestionException {
+    public AnswerEntity getAllAnswerForQuestion(String questionUuid, String token) throws AuthorizationFailedException, InvalidQuestionException {
 
         UserAuthEntity userAuth = userDao.getUserAuthByToken(token);
         if (userAuth == null) {

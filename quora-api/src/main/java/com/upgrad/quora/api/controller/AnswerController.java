@@ -7,7 +7,6 @@ package com.upgrad.quora.api.controller;
 
 import com.upgrad.quora.api.model.AnswerDeleteResponse;
 import com.upgrad.quora.api.model.AnswerDetailsResponse;
-import com.upgrad.quora.api.model.AnswerEditRequest;
 import com.upgrad.quora.api.model.AnswerEditResponse;
 import com.upgrad.quora.api.model.AnswerRequest;
 import com.upgrad.quora.api.model.AnswerResponse;
@@ -18,7 +17,6 @@ import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.exception.AnswerNotFoundException;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
-import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,10 +51,10 @@ public class AnswerController {
     }
 
     @RequestMapping(path = "/answer/edit/{answerId}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<AnswerEditResponse> editAnswer(@RequestHeader("authorization") final String authorization, @PathVariable("answerId") final String ansUuid, final AnswerEditRequest answerEditRequest) throws AuthorizationFailedException, AnswerNotFoundException {
+    public ResponseEntity<AnswerEditResponse> editAnswer(@RequestHeader("authorization") final String authorization, @PathVariable("answerId") final String ansUuid, final AnswerRequest answerRequest) throws AuthorizationFailedException, AnswerNotFoundException {
 
         String authorizationToken = authorization.split("Bearer")[1];
-        ansService.editAnswer(ansUuid, answerEditRequest.getContent(), authorizationToken);
+        ansService.editAnswer(ansUuid, answerRequest.getAnswer(), authorizationToken);
         AnswerEditResponse answerRsp = new AnswerEditResponse().id(ansUuid).status("ANSWER EDITED");
         return new ResponseEntity<AnswerEditResponse>(answerRsp, HttpStatus.OK);
 
@@ -76,15 +74,9 @@ public class AnswerController {
     public ResponseEntity<AnswerDetailsResponse> getAllAnswer(@RequestHeader("authorization") final String authorization, @PathVariable("questionId") final String quesUuid) throws AuthorizationFailedException, InvalidQuestionException {
 
         String authorizationToken = authorization.split("Bearer")[1];
-        List<AnswerEntity> ansEntity = ansService.getAllAnswerForQuestion(quesUuid, authorizationToken);
+        AnswerEntity ansEntity = ansService.getAllAnswerForQuestion(quesUuid, authorizationToken);
         QuestionEntity quesEntity = questionService.getQuestionByUuid(quesUuid);
-
-        String answerStr = new String();
-        for (int i = 0; i < ansEntity.size(); i++) {
-            answerStr = answerStr.concat(ansEntity.get(i).getAnswer());
-        }
-
-        AnswerDetailsResponse answerRsp = new AnswerDetailsResponse().id(quesUuid).questionContent(quesEntity.getContent()).answerContent(answerStr);
+        AnswerDetailsResponse answerRsp = new AnswerDetailsResponse().id(quesUuid).questionContent(quesEntity.getContent()).answerContent(ansEntity.getAnswer());
         return new ResponseEntity<AnswerDetailsResponse>(answerRsp, HttpStatus.OK);
 
     }

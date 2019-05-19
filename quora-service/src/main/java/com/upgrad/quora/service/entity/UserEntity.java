@@ -7,6 +7,7 @@ package com.upgrad.quora.service.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -87,7 +88,7 @@ public class UserEntity implements Serializable {
     private String contactNumber;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private ArrayList<QuestionEntity> questionList = new ArrayList();
+    private List<QuestionEntity> questionList = new ArrayList();
 
     public Integer getId() {
         return id;
@@ -141,7 +142,7 @@ public class UserEntity implements Serializable {
         return contactNumber;
     }
 
-    public ArrayList<QuestionEntity> getQuestionList() {
+    public List<QuestionEntity> getQuestionList() {
         return questionList;
     }
 

@@ -48,7 +48,7 @@ public class UserService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public UserEntity signOut(String uuid, String token) throws SignOutRestrictedException {
+    public UserEntity signOut(String token) throws SignOutRestrictedException {
 
         UserAuthEntity userAuth = userDao.getUserAuthByToken(token);
         if (userAuth == null) {
@@ -56,10 +56,10 @@ public class UserService {
         }
 
         UserEntity userEntity = userAuth.getUser();
-        if (userEntity.getUuid().equals(uuid)) {
-            userAuth.setLogoutAt(LocalDateTime.now());
-            userDao.updateAuthToken(userAuth);
-        }
+
+        userAuth.setLogoutAt(LocalDateTime.now());
+        userDao.updateAuthToken(userAuth);
+
         return userEntity;
     }
 

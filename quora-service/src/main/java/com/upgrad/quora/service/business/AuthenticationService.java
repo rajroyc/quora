@@ -25,9 +25,6 @@ public class AuthenticationService {
     @Autowired
     PasswordCryptographyProvider passwdCrypProvider;
 
-    @Autowired
-    JwtTokenProvider jwtTokenProvider;
-
     @Transactional(propagation = Propagation.REQUIRED)
     public UserAuthEntity authenticate(String username, String password) throws AuthenticationFailedException {
 
@@ -39,6 +36,7 @@ public class AuthenticationService {
         if (encryptPass.equals(password)) {
             final ZonedDateTime now = ZonedDateTime.now();
             final ZonedDateTime expiresAt = now.plusHours(8);
+            JwtTokenProvider jwtTokenProvider = new JwtTokenProvider(encryptPass);
             String jwtToken = jwtTokenProvider.generateToken(userEntity.getUuid(), now, expiresAt);
             UserAuthEntity userAuth = new UserAuthEntity();
             userAuth.setAccessToken(jwtToken);
